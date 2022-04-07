@@ -9,121 +9,51 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-class Main {
+public class Main {
     public static void main(String[] args) throws IOException {
+     try {
+         //TODO: De-serialize: Map a single Cereal object to a DTO
+         File oneCerealFile = new File("cereal_two.json");
 
-        //TODO: De-serialize: Map a single Cereal object to a DTO
-        File oneCerealFile = new File("cereal_one.json");
+         //object that helps us map
+         ObjectMapper mapper = new ObjectMapper();
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        CerealDTO oneCereal = objectMapper.readValue(oneCerealFile,CerealDTO.class);
+         //OVERLOADED readValue()
+         CerealDTO cereal = mapper.readValue(oneCerealFile, CerealDTO.class);
 
-        System.out.println(oneCereal.getName());
-        System.out.println(oneCereal.getMarshmallows());
+         System.out.println(cereal);
 
-        //Update CerealDTO
-        System.out.println(oneCereal.getCalories());
-        oneCereal.setCalories(200.5);
-        System.out.println(oneCereal.getCalories());
+         //Parse an unnamed list into a DTO
+         File unnamedListCerealFile = new File("cereal_list.json");
 
-        //Serialization: Writing out the JSON String from the CerealDTO Class
-        // configure Object mapper for pretty print
-        objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-        String cerealStr = objectMapper.writeValueAsString(oneCereal);
-        System.out.println(cerealStr);
+         //object mapper to help map
+         ObjectMapper mapper2 = new ObjectMapper();
 
-        //Is marshmallows set to an ArrayList?
-        if (oneCereal.getMarshmallows() instanceof ArrayList){
+         TypeReference<List<CerealUnnamedListDTO>> typeReferenceListCerealDTO =  new TypeReference<>(){};
+         // TypeReference<Type>
 
-            System.out.println("I'm an ArrayList");
-        }
+         List<CerealUnnamedListDTO> cerealList = mapper2.readValue(unnamedListCerealFile,typeReferenceListCerealDTO );
 
+         System.out.println(cerealList);
 
-        //TODO: Map a List of Cereal objects from JSON to a List of DTOs
-        File manyCerealFile = new File("cereal_many.json");
+         //*** Example 3 ***/
+         //Parse a named list into an object
+         File namedListCerealFile = new File("cereal_named_list.json");
 
-        ObjectMapper objectMapper2 = new ObjectMapper();
-        TypeReference<List<CerealDTO>> typeReferenceForCerealList = new TypeReference<>(){};
+         //instance of mapper
+         ObjectMapper mapper3 = new ObjectMapper();
 
-        List<CerealDTO> manyCerealList = objectMapper2.readValue(manyCerealFile,typeReferenceForCerealList);
+         // Use readValue() to read into a DTO
+         CerealNamedListDTO namedCereals = mapper3.readValue(namedListCerealFile, CerealNamedListDTO.class);
 
-        if (manyCerealList instanceof ArrayList) {
-            System.out.println("I'm a CerealDTO ArrayList");
-        }
-        System.out.println(manyCerealList.toString());
+         System.out.println(namedCereals);
 
-        for (CerealDTO cereal : manyCerealList){
-            System.out.println(cereal.getName());
-            System.out.println(cereal.getMarshmallows());
-        }
+     }
+     catch(Exception e){
+         System.out.println(e);
+     }
 
     }
+
 }
 
-class CerealDTO {
-    //Sample JSON:
-   /*
-   {
-       "id": 100,
-       "type": "cereal",
-       "name"  : "Lucky Charms",
-       "base": "oat",
-       "calories"  : 120.5,
-       "marshmallows" : [ "hearts", "stars", "rainbows", "clovers" ]
-   }
-   */
-    private int id;
-    private String type;
-    private String name;
-    private String base;
-    private double calories;
-    private List<String> marshmallows;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getBase() {
-        return base;
-    }
-
-    public void setBase(String base) {
-        this.base = base;
-    }
-
-    public double getCalories() {
-        return calories;
-    }
-
-    public void setCalories(double calories) {
-        this.calories = calories;
-    }
-
-    public List<String> getMarshmallows() {
-        return marshmallows;
-    }
-
-    public void setMarshmallows(List<String> marshmallows) {
-        this.marshmallows = marshmallows;
-    }
-}

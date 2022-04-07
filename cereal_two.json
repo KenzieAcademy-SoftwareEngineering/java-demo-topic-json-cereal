@@ -1,0 +1,10 @@
+
+  {
+    "id": 120,
+    "type": "cereal",
+    "name"  : "Cocoa Puffs",
+    "base": "corn",
+    "calories"  : 220.5,
+    "toy" : "decoder ring"
+
+  }

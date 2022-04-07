@@ -1,5 +1,5 @@
-
-   [
+{
+  "cereals": [
     {
       "id": 100,
       "type": "cereal",
@@ -28,3 +28,4 @@
       "calories": 80.5
     }
   ]
+}

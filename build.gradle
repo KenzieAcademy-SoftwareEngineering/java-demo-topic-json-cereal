@@ -3,9 +3,6 @@ plugins {
     id 'idea'
 }
 
-repositories {
-    mavenCentral()
-}
 
 dependencies {
     // Use JUnit test framework.
@@ -14,6 +11,10 @@ dependencies {
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.9.3'
 
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
+}
+
+repositories {
+    mavenCentral()
 }
 
 test {
